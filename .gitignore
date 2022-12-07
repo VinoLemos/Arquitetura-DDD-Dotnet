@@ -2,5 +2,5 @@
 .vscode
 obj/
 bin/
-*/bin
-*/obj
+src/*/bin
+src/*/obj
