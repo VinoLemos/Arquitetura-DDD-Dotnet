@@ -1,6 +1,6 @@
 .vs
 .vscode
-obj/
-bin/
-src/*/bin
-src/*/obj
+*/obj/
+*/bin/
+*/*/bin
+*/*/obj
