@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Api.CrossCutting.DependencyInjection;
 using Api.Data.Context;
+using Api.Domain.Security;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Logging;
 using Microsoft.OpenApi.Models;
 
 namespace application
@@ -31,8 +34,18 @@ namespace application
             ConfigureService.ConfigureDependenciesService(services);
             ConfigureRepository.ConfigureDependenciesRepository(services);
 
+
+            var signingConfigurations = new SigningConfigurations();
+            services.AddSingleton(signingConfigurations); //Instancia Unica
+
+            var tokenConfigurations = new TokenConfigurations();
+            new ConfigureFromConfigurationOptions<TokenConfigurations>(
+            Configuration.GetSection("TokenConfigurations"))
+            .Configure(tokenConfigurations);
+            services.AddSingleton(tokenConfigurations); //Instancia Unica
+
             services.AddControllers();
-            services.AddSwaggerGen( c => 
+            services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
@@ -50,7 +63,8 @@ namespace application
                     {
                         Name = "Termo de Licensa de Uso",
                         Url = new Uri("https://www.github.com/vinolemos")
-                }});
+                    }
+                });
             });
         }
 
