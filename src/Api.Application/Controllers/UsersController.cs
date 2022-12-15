@@ -1,6 +1,7 @@
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using Api.Domain.Dtos.User;
 using Api.Domain.Entities;
 using Api.Domain.Interfaces.Services.User;
 using Microsoft.AspNetCore.Authorization;
@@ -24,10 +25,7 @@ namespace Api.Application
         [HttpGet]
         public async Task<ActionResult> GetAll()
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
             try
             {
@@ -45,10 +43,7 @@ namespace Api.Application
         [Route("{id}", Name = "GetWithId")]
         public async Task<ActionResult> Get(Guid id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
             try
             {
@@ -62,21 +57,17 @@ namespace Api.Application
 
         [Authorize("Bearer")]
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] UserEntity user)
+        public async Task<ActionResult> Post([FromBody] UserDto user)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
             try
             {
                 var result = await _service.Post(user);
-                if (result != null)
-                {
-                    return Created(new Uri(Url.Link("GetWithId", new { id = result.Id })), result);
-                }
-                else return BadRequest();
+
+                if (result == null) return BadRequest();
+
+                return Created(new Uri(Url.Link("GetWithId", new { id = result.Id })), result);
             }
             catch (ArgumentException ex)
             {
@@ -86,21 +77,17 @@ namespace Api.Application
 
         [Authorize("Bearer")]
         [HttpPut]
-        public async Task<ActionResult> Put([FromBody] UserEntity user)
+        public async Task<ActionResult> Put([FromBody] UserDto user)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
             try
             {
                 var result = await _service.Put(user);
-                if (result != null)
-                {
-                    return Ok(result);
-                }
-                else return BadRequest();
+
+                if (result == null) return BadRequest();
+
+                return Ok(result);
             }
             catch (ArgumentException ex)
             {
@@ -112,10 +99,8 @@ namespace Api.Application
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(Guid id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
             try
             {
                 return Ok(await _service.Delete(id));
