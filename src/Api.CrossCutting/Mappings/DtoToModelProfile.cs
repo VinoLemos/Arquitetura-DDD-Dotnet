@@ -12,6 +12,12 @@ namespace Api.CrossCutting.Mappings
             CreateMap<UserModel, UserDto>()
                     // converts from destination to source
                     .ReverseMap();
+            CreateMap<UserModel, UserDtoCreate>()
+
+                    .ReverseMap();
+            CreateMap<UserModel, UserDtoUpdate>()
+
+                    .ReverseMap();
         }
     }
 }
