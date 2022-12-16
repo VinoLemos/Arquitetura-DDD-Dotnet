@@ -57,7 +57,7 @@ namespace Api.Service.Services
                 );
 
                 DateTime createDate = DateTime.UtcNow;
-                DateTime expirationDate = createDate.AddMinutes(2);
+                DateTime expirationDate = createDate + TimeSpan.FromSeconds(_tokenConfiguration.Seconds);
 
                 var handler = new JwtSecurityTokenHandler();
                 string token = CreateToken(identity, createDate, expirationDate, handler);
