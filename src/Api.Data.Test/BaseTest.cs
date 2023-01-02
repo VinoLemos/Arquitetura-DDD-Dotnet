@@ -37,6 +37,6 @@ public class DbTest : IDisposable
     public void Dispose()
     {
         using var context = ServiceProvider.GetService<MyContext>();
-        context.Database.EnsureCreated();
+        context.Database.EnsureDeleted();
     }
 }
