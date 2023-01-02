@@ -33,5 +33,12 @@ namespace Api.Domain.Models
             set { _createAt = value == null ? DateTime.UtcNow : value; }
         }
 
+        private DateTime _updateAt;
+        public DateTime UpdateAt
+        {
+            get { return _updateAt; }
+            set { _updateAt = value; }
+        }
+
     }
 }
