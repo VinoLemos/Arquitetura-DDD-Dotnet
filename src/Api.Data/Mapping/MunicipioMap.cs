@@ -8,14 +8,18 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Api.Data.Mapping
 {
-    public class UfMap : IEntityTypeConfiguration<UfEntity>
+    public class MunicipioMap : IEntityTypeConfiguration<MunicipioEntity>
     {
-        public void Configure(EntityTypeBuilder<UfEntity> builder)
+        public void Configure(EntityTypeBuilder<MunicipioEntity> builder)
         {
-            builder.ToTable("Uf");
+            builder.ToTable("Municipio");
+
             builder.HasKey(u => u.Id);
-            builder.HasIndex(u => u.Sigla)
-                   .IsUnique();
+
+            builder.HasIndex(u => u.CodIBGE);
+
+            builder.HasOne(u => u.Uf)
+                   .WithMany(m => m.Municipios);
         }
     }
 }
