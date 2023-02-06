@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Api.Domain.Models
 {
-    public class MunicipioModel
+    public class MunicipioModel : BaseModel
     {
         private string _nome;
         public string Nome
@@ -27,6 +27,5 @@ namespace Api.Domain.Models
             get { return _ufId; }
             set { _ufId = value; }
         }
-        
     }
 }
